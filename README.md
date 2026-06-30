@@ -90,42 +90,78 @@ Before running the project, ensure the following software is installed:
 
 ## 🚀 Getting Started & Installation
 
-### 1. Set up the AI Engine (Python)
-
-Open Anaconda Prompt and create the environment for the AI pipeline:
+### 1️⃣ Clone the Repository
 
 ```bash
-conda create -n AI python=3.10 -y
-conda activate AI
-pip install -r requirements.txt
-# Or install manually:
-# pip install opencv-python deepface tensorflow scipy flask flask-cors requests numpy
-```
+git clone https://github.com/YOUR_USERNAME/SafeGuard-Ag.git
 
-### 2. Set up the Backend (Node.js)
-
-Open a terminal in the project root directory and install backend dependencies:
-
-```bash
-cd web_app/backend
-npm install
-```
-
-### 3. Set up the Frontend (React.js)
-
-In the same or a new terminal, install the frontend dependencies:
-
-```bash
-cd web_app/frontend
-npm install
+cd SafeGuard-Ag
 ```
 
 ---
 
-## 🏃‍♂️ Running the System
+### 2️⃣ Create a Virtual Environment (Recommended)
 
-To launch the complete system (AI Stream + Backend API + React Dashboard), simply run the batch script from your project root:
+Using Conda:
 
 ```bash
-start.bat
+conda create -n safeguard-ag python=3.10 -y
+
+conda activate safeguard-ag
 ```
+
+Or using venv:
+
+```bash
+python -m venv venv
+
+# Windows
+venv\Scripts\activate
+
+# Linux / macOS
+source venv/bin/activate
+```
+
+---
+
+### 3️⃣ Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 4️⃣ Launch Jupyter Notebook
+
+```bash
+jupyter notebook
+```
+
+Open one of the following notebooks:
+
+- `Crop_Yield_Prediction.ipynb`
+- `Crop_Yield_Prediction_Algo.ipynb`
+
+## ▶️ Running the Project
+
+After installing the required dependencies, launch Jupyter Notebook:
+
+```bash
+jupyter notebook
+```
+
+Open:
+
+```text
+notebooks/Crop_Yield_Prediction.ipynb
+```
+
+Run all notebook cells sequentially to:
+
+- Load the dataset
+- Perform data preprocessing
+- Analyze the data
+- Train the ANN model
+- Evaluate model performance
+- Generate crop yield predictions
