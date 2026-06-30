@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌾 Crop Yield Prediction System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <span class="icon">🌾</span>
+                <h1>Crop Yield Prediction System</h1>
+            </div>
+            <p class="subtitle">Use AI to predict your crop yield with high accuracy</p>
+        </header>
+
+        <div class="main-card">
+            <form id="predictionForm">
+                <div class="form-grid">
+                    <!-- First Column -->
+                    <div class="form-group">
+                        <label for="region">🌍 Region</label>
+                        <select id="region" required>
+                            <option value="North">North</option>
+                            <option value="South">South</option>
+                            <option value="East">East</option>
+                            <option value="West">West</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="soil">🏞️ Soil Type</label>
+                        <select id="soil" required>
+                            <option value="Sandy">Sandy</option>
+                            <option value="Clay">Clay</option>
+                            <option value="Loam">Loam</option>
+                            <option value="Silt">Silt</option>
+                            <option value="Peaty">Peaty</option>
+                            <option value="Chalky">Chalky</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="crop">🌱 Crop Type</label>
+                        <select id="crop" required>
+                            <option value="Cotton">Cotton</option>
+                            <option value="Rice">Rice</option>
+                            <option value="Barley">Barley</option>
+                            <option value="Wheat">Wheat</option>
+                            <option value="Maize">Maize</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="weather">☁️ Weather Condition</label>
+                        <select id="weather" required>
+                            <option value="Sunny">Sunny</option>
+                            <option value="Rainy">Rainy</option>
+                            <option value="Cloudy">Cloudy</option>
+                        </select>
+                    </div>
+
+                    <!-- Second Column -->
+                    <div class="form-group">
+                        <label for="temperature">🌡️ Temperature (°C)</label>
+                        <input type="number" id="temperature" step="0.1" value="25" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rainfall">💧 Rainfall (mm)</label>
+                        <input type="number" id="rainfall" step="1" value="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fertilizer">🧪 Fertilizer Used</label>
+                        <select id="fertilizer" required>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="irrigation">💦 Irrigation Used</label>
+                        <select id="irrigation" required>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="days">📅 Days to Harvest</label>
+                        <input type="number" id="days" step="1" value="120" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="predict-btn">
+                    <span class="btn-icon">🔮</span>
+                    Predict Yield
+                </button>
+            </form>
+
+            <!-- Result Card -->
+            <div id="resultCard" class="result-card hidden">
+                <div class="result-content">
+                    <div class="result-icon">🌾</div>
+                    <div class="result-text">
+                        <h3>Prediction Result</h3>
+                        <p id="predictionResult" class="prediction-value">--</p>
+                        <p id="predictionMessage" class="prediction-message"></p>
+                    </div>
+                </div>
+                <div class="result-details">
+                    <span class="confidence">🎯 Model Accuracy: <strong>R² = 0.93</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>✨ Crop Yield Prediction System - DEPI Project</p>
+            <p class="footer-note">Powered by AI & Deep Learning Technologies</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
