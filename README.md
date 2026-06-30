@@ -93,9 +93,9 @@ Before running the project, ensure the following software is installed:
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/SafeGuard-Ag.git
+git clone https://github.com/eng-Shahd-Mostafa/DEPI-Project.git
 
-cd SafeGuard-Ag
+cd DEPI-Project
 ```
 
 ---
