@@ -4,6 +4,7 @@ import pandas as pd
 import joblib
 import tensorflow as tf
 from tensorflow.keras.models import load_model
+from scipy.spatial.distance import mahalanobis 
 
 app = Flask(__name__)
 
@@ -19,6 +20,44 @@ weather_encoder = joblib.load('models/weather_encoder.pkl')
 FEATURES = ['Region', 'Soil_Type', 'Crop', 'Weather_Condition', 
             'Temperature_Celsius', 'Rainfall_mm', 'Fertilizer_Used', 
             'Irrigation_Used', 'Days_to_Harvest']
+
+# PART 1: Drift Analysis Setup
+# Load training data for drift analysis
+training_data = pd.read_csv('data/crop_yield.csv')
+training_features = training_data[['Temperature_Celsius', 'Rainfall_mm', 'Days_to_Harvest']]
+
+# Calculate mean and covariance of training data
+train_mean = training_features.mean().values
+train_cov = np.cov(training_features.T)
+train_cov_inv = np.linalg.pinv(train_cov)
+
+def check_drift(input_data):
+    """
+    Check if new data is different from training data
+    input_data: array of 9 features (as the model expects)
+    """
+    # Take only numerical features (temperature, rainfall, days)
+    numerical_input = np.array([input_data[4], input_data[5], input_data[8]])
+    
+    # Calculate Mahalanobis distance
+    mahalanobis_dist = mahalanobis(numerical_input, train_mean, train_cov_inv)
+    
+    # Threshold (can be adjusted)
+    threshold = 10.0
+    
+    if mahalanobis_dist > threshold:
+        return {
+            'drift_detected': True,
+            'distance': round(mahalanobis_dist, 2),
+            'message': f'⚠️ Data drift detected! Distance: {mahalanobis_dist:.2f}'
+        }
+    else:
+        return {
+            'drift_detected': False,
+            'distance': round(mahalanobis_dist, 2),
+            'message': f'✅ No drift detected. Distance: {mahalanobis_dist:.2f}'
+        }
+
 
 @app.route('/')
 def home():
@@ -49,6 +88,10 @@ def predict():
             temperature, rainfall, fertilizer, irrigation, days
         ]])
         
+        # 🆕 PART 2: DRIFT CHECK BEFORE PREDICTION (HERE)
+        # Check for data drift
+        drift_result = check_drift(input_data[0])
+        
         # Apply StandardScaler
         input_scaled = scaler.transform(input_data)
         
@@ -56,10 +99,12 @@ def predict():
         prediction = model.predict(input_scaled, verbose=0)
         yield_pred = float(prediction[0][0])
         
+        # 🆕 PART 3: ADD DRIFT RESULT TO RESPONSE (HERE)
         return jsonify({
             'success': True,
             'prediction': round(yield_pred, 2),
-            'message': f'✅ Expected Yield: {round(yield_pred, 2)} tons/ha'
+            'message': f'✅ Expected Yield: {round(yield_pred, 2)} tons/ha',
+            'drift_analysis': drift_result  # ← Add drift analysis to response
         })
         
     except Exception as e:
