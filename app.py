@@ -88,7 +88,7 @@ def predict():
             temperature, rainfall, fertilizer, irrigation, days
         ]])
         
-        # 🆕 PART 2: DRIFT CHECK BEFORE PREDICTION (HERE)
+        # PART 2: Drift Analysis Check
         # Check for data drift
         drift_result = check_drift(input_data[0])
         
