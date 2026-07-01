@@ -13,29 +13,40 @@ The goal is to support precision agriculture by providing reliable crop yield pr
 ```text
 SafeGuard-Ag/
 ├── 📂 data/
-│   └── crop_yield.csv                 # Agricultural dataset
+│   └── crop_yield.csv                    # Agricultural dataset (10,000+ rows)
 │
-├── 📂 graphs/
-│   └── plot_01_yield_distribution.png
-│   └── plot_02_yield_by_crop.png
-│   └── plot_03_yield_by_region.png
-│   └── plot_04_fertilizer_irrigation.png
+├── 📂 graphs/                            # 📊 Generated visualizations
+│   ├── plot_01_yield_distribution.png    # Yield distribution analysis
+│   ├── plot_02_yield_by_crop.png         # Yield by crop type
+│   ├── plot_03_yield_by_region.png       # Yield by region
+│   ├── plot_04_correlation_matrix.png    # Feature correlation
+│   └── plot_05_feature_importance.png    # Feature importance
 │   └── ...
 │
-├── 📂 models/
-│   ├── crop_encoder.pkl               # Crop label encoder
-│   ├── region_encoder.pkl             # Region label encoder
-│   ├── soil_encoder.pkl               # Soil type encoder
-│   ├── weather_encoder.pkl            # Weather condition encoder
-│   ├── scaler.pkl                     # Feature scaler
-│   └── crop_yield_ann.keras           # Trained ANN model
+├── 📂 models/                            # 🧠 Trained artifacts
+│   ├── crop_encoder.pkl                  # Crop label encoder
+│   ├── region_encoder.pkl                # Region label encoder
+│   ├── soil_encoder.pkl                  # Soil type encoder
+│   ├── weather_encoder.pkl               # Weather condition encoder
+│   ├── scaler.pkl                        # StandardScaler
+│   └── crop_yield_ann.keras              # Trained ANN model
 │
-├── 📂 notebooks/
-│   ├── Crop_Yield_Prediction.ipynb
+├── 📂 notebooks/                         # 📓 Jupyter notebooks
+│   └── Crop_Yield_Prediction.ipynb       # Main training pipeline
+│
+├── 📂 static/                            # 🎨 Web assets
+│   ├── style.css                         # Custom styling
+│   └── script.js                         # Frontend interactivity
+│
+├── 📂 templates/                         # 📄 HTML templates
+│   └── index.html                        # Main web interface
+│
+├── 📂 venv/                              # 🐍 Python environment
 │
 ├── .gitignore
+├── app.py                                # 🚀 Flask application
 ├── README.md
-└── requirements.txt
+└── requirements.txt                      # 📦 Dependencies
 ```
 ---
 ## 📌 Key Features
@@ -189,6 +200,7 @@ Total params: 12,545
 Trainable params: 12,097
 Non-trainable params: 448
 _________________________________________________________________
+```
 ---
 
 ## ⚙️ Prerequisites
@@ -219,9 +231,9 @@ cd DEPI-Project
 Using Conda:
 
 ```bash
-conda create -n safeguard-ag python=3.10 -y
+conda create -n DEPI-Project python=3.10 -y
 
-conda activate safeguard-ag
+conda activate DEPI-Project
 ```
 
 Or using venv:
@@ -238,44 +250,115 @@ source venv/bin/activate
 
 ---
 
-### 3️⃣ Install Dependencies
+## 👥 **Team & Contributors**
 
-```bash
-pip install -r requirements.txt
-```
+<div align="center">
+
+### 🎯 **Project Lead & AI Engineer**
+
+<table align="center">
+<tr>
+<td align="center">
+<img src="https://avatars.githubusercontent.com/eng-Shahd-Mostafa" width="150px" style="border-radius: 50%;" alt="Shahd Mostafa"/>
+<br />
+<strong>Shahd Mostafa</strong>
+<br />
+🎓 AI & ML Engineer
+<br />
+🔬 Deep Learning Specialist
+<br />
+<br />
+<a href="https://github.com/eng-Shahd-Mostafa">
+  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
+</a>
+<a href="https://www.linkedin.com/in/engshahdmostafa/">
+  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
+</a>
+<a href="mailto:eng.shahd.mostafa@gmail.com">
+  <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
+</a>
+</td>
+</tr>
+</table>
 
 ---
 
-### 4️⃣ Launch Jupyter Notebook
+### 🏆 **Project Supervisors & Mentors**
 
-```bash
-jupyter notebook
+<table>
+<tr>
+<td align="center">
+<strong>🎓 DEPI Program</strong><br />
+Digital Egypt Pioneers Initiative<br />
+<em>AI & Machine Learning Track</em>
+</td>
+<td align="center">
+<strong>👨‍🏫 Technical Mentors</strong><br />
+Expert Guidance & Support<br />
+<em>Industry Professionals</em>
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
+## 🚀 **Deployment & Implementation**
+
+### **🌐 Live Demo**
+
+<div align="center">
+
+| Platform | Status | Link |
+|----------|--------|------|
+| **Local Server** | 🟢 Active | `http://127.0.0.1:5000` |
+| **GitHub Repository** | 🟢 Public | [View Repository](https://github.com/eng-Shahd-Mostafa/DEPI-Project) |
+| **Documentation** | 🟢 Complete | [README.md](README.md) |
+
+</div>
+
+---
+
+### **📊 Deployment Architecture**
+
+```mermaid
+graph TD
+    A[User Interface] --> B[Flask Web App]
+    B --> C[Prediction API]
+    C --> D[Model Loading]
+    D --> E[ANN Model]
+    D --> F[Preprocessing Pipeline]
+    F --> G[Label Encoders]
+    F --> H[StandardScaler]
+    E --> I[Prediction Result]
+    I --> J[JSON Response]
+    J --> A
 ```
+---
+## 📚 **References & Research**
 
-Open one of the following notebooks:
+<div align="center">
 
-- `Crop_Yield_Prediction.ipynb`
-- `Crop_Yield_Prediction_Algo.ipynb`
+### 🔗 **Useful Resources**
 
-## ▶️ Running the Project
+| Resource | Link | Purpose |
+|----------|------|---------|
+| **TensorFlow** | [tensorflow.org](https://www.tensorflow.org) | Deep Learning Framework |
+| **Scikit-learn** | [scikit-learn.org](https://scikit-learn.org) | Machine Learning Library |
+| **Flask** | [flask.palletsprojects.com](https://flask.palletsprojects.com) | Web Framework |
+| **XGBoost** | [xgboost.readthedocs.io](https://xgboost.readthedocs.io) | Gradient Boosting |
 
-After installing the required dependencies, launch Jupyter Notebook:
+</div>
 
-```bash
-jupyter notebook
-```
+<div align="center">
+  
+<br />
+  
+<h5 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 30px; font-weight: 500; margin: 10px 0;">
+  Made with ❤️ Shahd Mostafa
+</h5>
 
-Open:
+<br />
 
-```text
-notebooks/Crop_Yield_Prediction.ipynb
-```
-
-Run all notebook cells sequentially to:
-
-- Load the dataset
-- Perform data preprocessing
-- Analyze the data
-- Train the ANN model
-- Evaluate model performance
-- Generate crop yield predictions
+</div>
