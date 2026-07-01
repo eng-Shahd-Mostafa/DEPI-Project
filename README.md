@@ -66,49 +66,6 @@ SafeGuard-Ag/
 
 ---
 
-## 🎯 Milestones
-
-### Milestone 1: Data Collection, Exploration, and Preprocessing
-
-- Load agricultural dataset.
-- Handle missing values.
-- Remove duplicates.
-- Detect outliers.
-- Encode categorical variables.
-- Normalize numerical features.
-
-### Milestone 2: Exploratory Data Analysis
-
-- Select and fine-tune a model: FaceNet, VGG-Face, DeepFace, or custom CNN.
-- Statistical Analysis.
-- Distribution Analysis.
-- Correlation Matrix.
-- Feature Importance.
-- Data Visualization.
-
-### Milestone 3: Model Development & Evaluation
-
-- Deploy the model via Flask API.
-- Feature Engineering.
-- XGBoost Noise Detection.
-- Train/Test Split.
-- Feature Scaling.
-- ANN Development.
-- MAE, RMSE, R² Score, Error Analysis
-
-### Milestone 4: Deployment & Future Improvements
-
-- Model Saving.
-- Prediction Pipeline.
-- Explainable AI.
-- Dashboard Integration.
-
-### Milestone 5: Final Documentation and Presentation
-
-- Full project report covering data, model, deployment, and monitoring.
-- Presentation of system architecture and real-world impact.
-
----
 ## 🛠️ Tech Stack
 
 ### **Data Science & Machine Learning**
@@ -146,6 +103,7 @@ The ANN model achieved the following evaluation metrics after rigorous training 
 | **Residual Std** | 0.3999 |
 
 ### Stability Analysis (5 Runs)
+  
 | Metric | Mean | Std |
 |--------|------|-----|
 | **R²** | 0.941727 | 0.001041 |
@@ -154,53 +112,6 @@ The ANN model achieved the following evaluation metrics after rigorous training 
 
 The model demonstrates **high stability** and **consistency** across multiple training runs.
 
----
-
-## 📈 Data Preprocessing Pipeline
-
-### 1. **Data Cleaning**
-- Removed negative yield values
-- Detected and handled outliers using IQR method
-- Removed top 10% noisy data points using XGBoost residual analysis
-
-### 2. **Feature Engineering**
-- Encoded categorical features:
-  - `Region`
-  - `Soil_Type`
-  - `Crop`
-  - `Weather_Condition`
-- Converted boolean features to integers:
-  - `Fertilizer_Used`
-  - `Irrigation_Used`
-- Standardized numerical features using `StandardScaler`
-
-### 3. **Train/Test Split**
-- 80% training, 20% testing
-- Random state: 42 for reproducibility
-
----
-## 🧠 Model Architecture
-
-```python
-Model: "sequential"
-_________________________________________________________________
-Layer (type)                 Output Shape              Param #
-=================================================================
-dense (Dense)                (None, 128)               1280
-batch_normalization (BN)     (None, 128)               512
-dropout (Dropout)            (None, 128)               0
-dense_1 (Dense)              (None, 64)                8256
-batch_normalization_1 (BN)   (None, 64)                256
-dropout_1 (Dropout)          (None, 64)                0
-dense_2 (Dense)              (None, 32)                2080
-batch_normalization_2 (BN)   (None, 32)                128
-dense_3 (Dense)              (None, 1)                 33
-=================================================================
-Total params: 12,545
-Trainable params: 12,097
-Non-trainable params: 448
-_________________________________________________________________
-```
 ---
 
 ## ⚙️ Prerequisites
@@ -283,27 +194,6 @@ source venv/bin/activate
 
 ---
 
-### 🏆 **Project Supervisors & Mentors**
-
-<table>
-<tr>
-<td align="center">
-<strong>🎓 DEPI Program</strong><br />
-Digital Egypt Pioneers Initiative<br />
-<em>AI & Machine Learning Track</em>
-</td>
-<td align="center">
-<strong>👨‍🏫 Technical Mentors</strong><br />
-Expert Guidance & Support<br />
-<em>Industry Professionals</em>
-</td>
-</tr>
-</table>
-
-</div>
-
----
-
 ## 🚀 **Deployment & Implementation**
 
 ### **🌐 Live Demo**
@@ -336,29 +226,10 @@ graph TD
     J --> A
 ```
 ---
-## 📚 **References & Research**
-
 <div align="center">
-
-### 🔗 **Useful Resources**
-
-| Resource | Link | Purpose |
-|----------|------|---------|
-| **TensorFlow** | [tensorflow.org](https://www.tensorflow.org) | Deep Learning Framework |
-| **Scikit-learn** | [scikit-learn.org](https://scikit-learn.org) | Machine Learning Library |
-| **Flask** | [flask.palletsprojects.com](https://flask.palletsprojects.com) | Web Framework |
-| **XGBoost** | [xgboost.readthedocs.io](https://xgboost.readthedocs.io) | Gradient Boosting |
-
-</div>
-
-<div align="center">
-  
 <br />
-  
 <h5 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 30px; font-weight: 500; margin: 10px 0;">
   Made with ❤️ Shahd Mostafa
 </h5>
-
 <br />
-
 </div>
