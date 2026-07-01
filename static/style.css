@@ -238,3 +238,37 @@ footer {
         font-size: 2rem;
     }
 }
+
+/* Drift Status Styles */
+.drift-status {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+}
+
+.drift-status.drift-detected {
+    color: #ed8936;
+    background: #fffaf0;
+    border: 1px solid #ed8936;
+}
+
+.drift-status.no-drift {
+    color: #48bb78;
+    background: #f0fff4;
+    border: 1px solid #48bb78;
+}
+
+.drift-status.checking {
+    color: #667eea;
+    background: #ebf4ff;
+    border: 1px solid #667eea;
+}
+
+.drift-status.error {
+    color: #fc8181;
+    background: #fff5f5;
+    border: 1px solid #fc8181;
+}

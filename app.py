@@ -99,12 +99,12 @@ def predict():
         prediction = model.predict(input_scaled, verbose=0)
         yield_pred = float(prediction[0][0])
         
-        # 🆕 PART 3: ADD DRIFT RESULT TO RESPONSE (HERE)
+        # PART 3: Add drift analysis result to the response
         return jsonify({
             'success': True,
             'prediction': round(yield_pred, 2),
             'message': f'✅ Expected Yield: {round(yield_pred, 2)} tons/ha',
-            'drift_analysis': drift_result  # ← Add drift analysis to response
+            'drift_analysis': drift_result  
         })
         
     except Exception as e:
