@@ -5,17 +5,14 @@ import joblib
 import tensorflow as tf
 from tensorflow.keras.models import load_model
 from scipy.spatial.distance import mahalanobis 
+import os
 
 app = Flask(__name__)
 
 # Load the trained model and encoders
-import os
-
-# تحديد المسار الديناميكي
 base_dir = os.path.dirname(os.path.abspath(__file__))
 model_path = os.path.join(base_dir, 'models', 'crop_yield_ann.keras')
 
-# تحميل الموديل بالمسار الكامل
 model = load_model(model_path)
 scaler = joblib.load(os.path.join(base_dir, 'models', 'scaler.pkl'))
 crop_encoder = joblib.load(os.path.join(base_dir, 'models', 'crop_encoder.pkl'))
@@ -122,5 +119,3 @@ def predict():
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', port=7860)
