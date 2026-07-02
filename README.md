@@ -1,26 +1,3 @@
----
-title: SafeGuard Ag
-emoji: 💻
-colorFrom: green
-colorTo: pink
-sdk: docker
-pinned: false
-license: mit
----
-
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
-
----
-title: SafeGuard Ag
-emoji: 💻
-colorFrom: green
-colorTo: pink
-sdk: docker
-pinned: false
-license: mit
----
-
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
 # 🌾 SafeGuard Ag: AI-Powered Crop Yield Prediction System
 
 SafeGuard Ag is an intelligent Machine Learning and Deep Learning system designed to accurately predict crop yield based on environmental and agricultural factors.
