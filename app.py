@@ -9,12 +9,19 @@ from scipy.spatial.distance import mahalanobis
 app = Flask(__name__)
 
 # Load the trained model and encoders
-model = load_model('models/crop_yield_ann.keras')
-scaler = joblib.load('models/scaler.pkl')
-crop_encoder = joblib.load('models/crop_encoder.pkl')
-region_encoder = joblib.load('models/region_encoder.pkl')
-soil_encoder = joblib.load('models/soil_encoder.pkl')
-weather_encoder = joblib.load('models/weather_encoder.pkl')
+import os
+
+# تحديد المسار الديناميكي
+base_dir = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(base_dir, 'models', 'crop_yield_ann.keras')
+
+# تحميل الموديل بالمسار الكامل
+model = load_model(model_path)
+scaler = joblib.load(os.path.join(base_dir, 'models', 'scaler.pkl'))
+crop_encoder = joblib.load(os.path.join(base_dir, 'models', 'crop_encoder.pkl'))
+region_encoder = joblib.load(os.path.join(base_dir, 'models', 'region_encoder.pkl'))
+soil_encoder = joblib.load(os.path.join(base_dir, 'models', 'soil_encoder.pkl'))
+weather_encoder = joblib.load(os.path.join(base_dir, 'models', 'weather_encoder.pkl'))
 
 # the features used in the model
 FEATURES = ['Region', 'Soil_Type', 'Crop', 'Weather_Condition', 
@@ -113,7 +120,7 @@ def predict():
             'error': str(e)
         })
 
-# if __name__ == '__main__':
-#     app.run(debug=True, host='0.0.0.0', port=5000)
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=7860)
+    app.run(debug=True, host='0.0.0.0', port=5000)
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=7860)
