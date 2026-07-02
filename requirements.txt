@@ -1,8 +1,9 @@
-Flask==3.1.3
-joblib==1.5.2
+Flask
+joblib
 matplotlib
 numpy
 pandas
 scipy
 seaborn
 tensorflow
+gunicorn
