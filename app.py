@@ -108,7 +108,7 @@ def predict():
         return jsonify({
             'success': True,
             'prediction': round(yield_pred, 2),
-            'message': f'✅ Expected Yield: {round(yield_pred, 2)} tons/ha',
+            'message': f'✅ Expected Crop Yield: {round(yield_pred, 2)} tons/ha',
             'drift_analysis': drift_result  
         })
         
