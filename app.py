@@ -11,9 +11,9 @@ app = Flask(__name__)
 
 # Load the trained model and encoders
 base_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(base_dir, 'models', 'crop_yield_ann.keras')
+model_path = os.path.join(base_dir, 'models', 'crop_yield_model.pkl')
+model = joblib.load(model_path)
 
-model = load_model(model_path)
 scaler = joblib.load(os.path.join(base_dir, 'models', 'scaler.pkl'))
 crop_encoder = joblib.load(os.path.join(base_dir, 'models', 'crop_encoder.pkl'))
 region_encoder = joblib.load(os.path.join(base_dir, 'models', 'region_encoder.pkl'))
@@ -101,7 +101,8 @@ def predict():
         
         # Make prediction
         prediction = model.predict(input_scaled, verbose=0)
-        yield_pred = float(prediction[0][0])
+        # yield_pred = float(prediction[0][0])
+        yield_pred = float(prediction[0][0]) if hasattr(prediction, 'ndim') and prediction.ndim > 1 else float(prediction[0])
         
         # PART 3: Add drift analysis result to the response
         return jsonify({
@@ -117,7 +118,5 @@ def predict():
             'error': str(e)
         })
 
-# if __name__ == '__main__':
-#     app.run(debug=True, host='0.0.0.0', port=5000)
 if __name__ == '__main__':
     app.run()
