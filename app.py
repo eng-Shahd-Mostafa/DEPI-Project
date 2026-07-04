@@ -2,8 +2,6 @@ from flask import Flask, render_template, request, jsonify
 import numpy as np
 import pandas as pd
 import joblib
-import tensorflow as tf
-from tensorflow.keras.models import load_model
 from scipy.spatial.distance import mahalanobis 
 import os
 
