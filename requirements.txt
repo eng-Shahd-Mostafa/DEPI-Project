@@ -5,5 +5,6 @@ numpy
 pandas
 scipy
 seaborn
-tensorflow
 gunicorn
+tensorflow==2.15.0
+keras==2.15.0
