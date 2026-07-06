@@ -5,4 +5,6 @@ pandas
 joblib
 scipy
 scikit-learn
+tensorflow-cpu
+keras
 python-multipart

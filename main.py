@@ -125,13 +125,14 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import uvicorn
 import numpy as np
 import pandas as pd
 import joblib
 from scipy.spatial.distance import mahalanobis
 from pathlib import Path
 import os
+import tensorflow as tf
+import keras
 
 # ============================================
 # Initialize FastAPI App
@@ -159,36 +160,62 @@ app.add_middleware(
 base_dir = Path(__file__).parent
 
 # ============================================
-# Mount Static Files (✅ لازم يكون قبل الـ routes)
+# Mount Static Files
 # ============================================
 static_dir = base_dir / "static"
 if static_dir.exists():
     app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 else:
     print("⚠️ Static directory not found!")
+
 # ============================================
 # Load Models & Encoders
 # ============================================
 print("🔄 Loading models...")
+print(f"🔍 TensorFlow version: {tf.__version__}")
+print(f"🔍 Keras version: {keras.__version__}")
 
-model = joblib.load(base_dir / "models" / "crop_yield_model.pkl")
-scaler = joblib.load(base_dir / "models" / "scaler.pkl")
-crop_encoder = joblib.load(base_dir / "models" / "crop_encoder.pkl")
-region_encoder = joblib.load(base_dir / "models" / "region_encoder.pkl")
-soil_encoder = joblib.load(base_dir / "models" / "soil_encoder.pkl")
-weather_encoder = joblib.load(base_dir / "models" / "weather_encoder.pkl")
+try:
+    model = joblib.load(base_dir / "models" / "crop_yield_model.pkl")
+    print(f"✅ Model loaded successfully! Type: {type(model)}")
+except Exception as e:
+    print(f"❌ Failed to load model: {e}")
+    raise e
 
-print("✅ Models loaded successfully!")
+try:
+    scaler = joblib.load(base_dir / "models" / "scaler.pkl")
+    print("✅ Scaler loaded successfully!")
+except Exception as e:
+    print(f"❌ Failed to load scaler: {e}")
+    raise e
+
+try:
+    crop_encoder = joblib.load(base_dir / "models" / "crop_encoder.pkl")
+    region_encoder = joblib.load(base_dir / "models" / "region_encoder.pkl")
+    soil_encoder = joblib.load(base_dir / "models" / "soil_encoder.pkl")
+    weather_encoder = joblib.load(base_dir / "models" / "weather_encoder.pkl")
+    print("✅ All encoders loaded successfully!")
+except Exception as e:
+    print(f"❌ Failed to load encoders: {e}")
+    raise e
+
+print("✅ All models loaded successfully!")
 
 # ============================================
 # Drift Analysis Setup
 # ============================================
-training_data = pd.read_csv(base_dir / "data" / "crop_yield.csv")
-training_features = training_data[['Temperature_Celsius', 'Rainfall_mm', 'Days_to_Harvest']]
-
-train_mean = training_features.mean().values
-train_cov = np.cov(training_features.T)
-train_cov_inv = np.linalg.pinv(train_cov)
+csv_path = base_dir / "data" / "crop_yield.csv"
+if csv_path.exists():
+    training_data = pd.read_csv(csv_path)
+    training_features = training_data[['Temperature_Celsius', 'Rainfall_mm', 'Days_to_Harvest']]
+    train_mean = training_features.mean().values
+    train_cov = np.cov(training_features.T)
+    train_cov_inv = np.linalg.pinv(train_cov)
+    print("✅ Drift analysis data loaded!")
+else:
+    print(f"⚠️ CSV file not found: {csv_path}")
+    train_mean = np.array([25, 100, 120])
+    train_cov_inv = np.eye(3)
 
 # ============================================
 # Pydantic Models
@@ -240,8 +267,11 @@ def safe_transform(encoder, value):
 @app.get("/", response_class=HTMLResponse)
 async def home():
     """Serve the main web interface"""
-    with open(base_dir / "templates" / "index.html", "r", encoding="utf-8") as f:
-        return f.read()
+    try:
+        with open(base_dir / "templates" / "index.html", "r", encoding="utf-8") as f:
+            return f.read()
+    except Exception as e:
+        return HTMLResponse(content=f"<h1>Error loading index.html: {e}</h1>", status_code=500)
 
 @app.get("/health")
 async def health_check():
@@ -291,8 +321,9 @@ async def predict(request: PredictionRequest):
         }
 
 # ============================================
-# Run the App
+# Run the App (Commented for Vercel)
 # ============================================
 # if __name__ == "__main__":
-#     port = int(os.getenv("PORT", 5000))  
+#     import uvicorn
+#     port = int(os.getenv("PORT", 5000))
 #     uvicorn.run(app, host="0.0.0.0", port=port)
