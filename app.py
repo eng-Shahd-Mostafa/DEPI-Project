@@ -18,14 +18,45 @@ base_dir = Path(__file__).parent
 def load_models():
     """Load all models and encoders with caching"""
     try:
-        model = joblib.load(base_dir / "models" / "crop_yield_model.pkl")
+        # 1. Load Keras model with custom_objects to handle old format
+        model_path = base_dir / "models" / "crop_yield_model.pkl"
+        
+        # جرب تحميل النموذج كـ Keras model مباشرة
+        try:
+            # لو الملف بصيغة .h5
+            model = tf.keras.models.load_model(
+                base_dir / "models" / "crop_yield_model.h5",
+                compile=False  # مهم جداً عشان يتخطى مشكلة optimizer
+            )
+            print("✅ Loaded Keras model from .h5")
+        except:
+            # لو الملف بصيغة .pkl، استخدم joblib مع custom_objects
+            from keras.initializers import GlorotUniform
+            from keras.layers import Dense, BatchNormalization, Dropout, InputLayer
+            
+            # سجل الـ custom objects عشان يتعرف على المكونات القديمة
+            custom_objects = {
+                'GlorotUniform': GlorotUniform,
+                'Dense': Dense,
+                'BatchNormalization': BatchNormalization,
+                'Dropout': Dropout,
+                'InputLayer': InputLayer
+            }
+            
+            with tf.keras.utils.custom_object_scope(custom_objects):
+                model = joblib.load(model_path)
+                # حاول ت compile النموذج من جديد
+                model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+            print("✅ Loaded Keras model from .pkl with custom_objects")
+        
+        # 2. Load encoders and scaler
         scaler = joblib.load(base_dir / "models" / "scaler.pkl")
         crop_encoder = joblib.load(base_dir / "models" / "crop_encoder.pkl")
         region_encoder = joblib.load(base_dir / "models" / "region_encoder.pkl")
         soil_encoder = joblib.load(base_dir / "models" / "soil_encoder.pkl")
         weather_encoder = joblib.load(base_dir / "models" / "weather_encoder.pkl")
         
-        # Load drift analysis data
+        # 3. Load drift analysis data
         training_data = pd.read_csv(base_dir / "data" / "crop_yield.csv")
         training_features = training_data[['Temperature_Celsius', 'Rainfall_mm', 'Days_to_Harvest']]
         
@@ -107,7 +138,6 @@ def main():
             row1_col1, row1_col2 = st.columns(2)
             row2_col1, row2_col2 = st.columns(2)
             row3_col1, row3_col2 = st.columns(2)
-            row4_col1, row4_col2 = st.columns(2)
             
             with row1_col1:
                 region = st.selectbox(
