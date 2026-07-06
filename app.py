@@ -4,7 +4,7 @@ import pandas as pd
 import joblib
 from scipy.spatial.distance import mahalanobis
 from pathlib import Path
-import tensorflow as tf
+import os
 
 # ============================================
 # Setup Paths
@@ -18,36 +18,34 @@ base_dir = Path(__file__).parent
 def load_models():
     """Load all models and encoders with caching"""
     try:
-        # 1. Load Keras model with custom_objects to handle old format
-        model_path = base_dir / "models" / "crop_yield_model.pkl"
+        # 1. Try loading model from .h5 first (preferred format)
+        model_path_h5 = base_dir / "models" / "crop_yield_model.h5"
+        model_path_pkl = base_dir / "models" / "crop_yield_model.pkl"
         
-        # جرب تحميل النموذج كـ Keras model مباشرة
-        try:
-            # لو الملف بصيغة .h5
-            model = tf.keras.models.load_model(
-                base_dir / "models" / "crop_yield_model.h5",
-                compile=False  # مهم جداً عشان يتخطى مشكلة optimizer
-            )
-            print("✅ Loaded Keras model from .h5")
-        except:
-            # لو الملف بصيغة .pkl، استخدم joblib مع custom_objects
-            from keras.initializers import GlorotUniform
-            from keras.layers import Dense, BatchNormalization, Dropout, InputLayer
-            
-            # سجل الـ custom objects عشان يتعرف على المكونات القديمة
-            custom_objects = {
-                'GlorotUniform': GlorotUniform,
-                'Dense': Dense,
-                'BatchNormalization': BatchNormalization,
-                'Dropout': Dropout,
-                'InputLayer': InputLayer
-            }
-            
-            with tf.keras.utils.custom_object_scope(custom_objects):
-                model = joblib.load(model_path)
-                # حاول ت compile النموذج من جديد
-                model.compile(optimizer='adam', loss='mse', metrics=['mae'])
-            print("✅ Loaded Keras model from .pkl with custom_objects")
+        model = None
+        
+        # Try .h5 first
+        if model_path_h5.exists():
+            try:
+                import tensorflow as tf
+                model = tf.keras.models.load_model(model_path_h5, compile=False)
+                print("✅ Loaded Keras model from .h5")
+            except Exception as e:
+                print(f"⚠️ Failed to load .h5: {e}")
+        
+        # If .h5 failed, try .pkl
+        if model is None and model_path_pkl.exists():
+            try:
+                import tensorflow as tf
+                # Try loading with joblib
+                model = joblib.load(model_path_pkl)
+                print("✅ Loaded Keras model from .pkl")
+            except Exception as e:
+                print(f"⚠️ Failed to load .pkl: {e}")
+        
+        # If still no model, raise error
+        if model is None:
+            raise Exception("No model found in either .h5 or .pkl format")
         
         # 2. Load encoders and scaler
         scaler = joblib.load(base_dir / "models" / "scaler.pkl")
@@ -57,12 +55,18 @@ def load_models():
         weather_encoder = joblib.load(base_dir / "models" / "weather_encoder.pkl")
         
         # 3. Load drift analysis data
-        training_data = pd.read_csv(base_dir / "data" / "crop_yield.csv")
-        training_features = training_data[['Temperature_Celsius', 'Rainfall_mm', 'Days_to_Harvest']]
-        
-        train_mean = training_features.mean().values
-        train_cov = np.cov(training_features.T)
-        train_cov_inv = np.linalg.pinv(train_cov)
+        csv_path = base_dir / "data" / "crop_yield.csv"
+        if csv_path.exists():
+            training_data = pd.read_csv(csv_path)
+            training_features = training_data[['Temperature_Celsius', 'Rainfall_mm', 'Days_to_Harvest']]
+            train_mean = training_features.mean().values
+            train_cov = np.cov(training_features.T)
+            train_cov_inv = np.linalg.pinv(train_cov)
+        else:
+            # Fallback values if CSV not found
+            print("⚠️ CSV not found, using fallback values")
+            train_mean = np.array([25.0, 100.0, 120.0])
+            train_cov_inv = np.eye(3)
         
         return {
             'model': model,
@@ -75,7 +79,7 @@ def load_models():
             'train_cov_inv': train_cov_inv
         }
     except Exception as e:
-        st.error(f"❌ Failed to load models: {e}")
+        st.error(f"❌ Failed to load models: {str(e)}")
         return None
 
 # ============================================
