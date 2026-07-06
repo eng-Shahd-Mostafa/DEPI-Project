@@ -145,13 +145,13 @@ class DataDriftAnalyzer:
         if self.reference_stats is None:
             return {
                 'drift_detected': False,
-                'message': '✅ No drift detected. Distance: 1.88',
+                'message': '✅ No drift detected',
                 'details': {'warnings_count': 0}
             }
         
         drift_results = {
             'drift_detected': False,
-            'message': '✅ No drift detected. Distance: 1.88',
+            'message': '✅ No drift detected',
             'details': {'warnings_count': 0},
             'warnings': []
         }
@@ -172,7 +172,7 @@ class DataDriftAnalyzer:
                 
                 if value < lower_bound or value > upper_bound:
                     drift_results['drift_detected'] = True
-                    drift_results['message'] = '⚠️ Drift detected. Distance: 1.88'
+                    drift_results['message'] = '⚠️ Drift detected'
                     drift_results['warnings'].append(f"{ref_col}: {value:.2f} outside range")
         
         drift_results['details']['warnings_count'] = len(drift_results['warnings'])
