@@ -6,3 +6,4 @@ matplotlib
 plotly
 joblib
 xgboost
+tensorflow==2.15.1
