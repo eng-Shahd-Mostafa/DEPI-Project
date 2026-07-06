@@ -6,4 +6,4 @@ matplotlib
 plotly
 joblib
 xgboost
-keras
+tensorflow==2.15.1
