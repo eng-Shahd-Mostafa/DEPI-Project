@@ -3,8 +3,8 @@ import pandas as pd
 import numpy as np
 import joblib
 import os
-import matplotlib.pyplot as plt
 import plotly.graph_objects as go
+from tensorflow.keras.models import load_model
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -660,7 +660,7 @@ def load_models():
     models_path = 'models/'
     try:
         return {
-            'model': joblib.load(os.path.join(models_path, 'crop_yield_model.pkl')),
+            'model': load_model(os.path.join(models_path, 'crop_yield_ann.keras')),
             'scaler': joblib.load(os.path.join(models_path, 'scaler.pkl')),
             'region_encoder': joblib.load(os.path.join(models_path, 'region_encoder.pkl')),
             'soil_encoder': joblib.load(os.path.join(models_path, 'soil_encoder.pkl')),
