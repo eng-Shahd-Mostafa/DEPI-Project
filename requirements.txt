@@ -1,10 +1,8 @@
 fastapi
 uvicorn
-python-multipart
-jinja2
-pandas
 numpy
-scikit-learn
-tensorflow
+pandas
 joblib
 scipy
+scikit-learn
+python-multipart

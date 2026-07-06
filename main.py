@@ -131,6 +131,7 @@ import pandas as pd
 import joblib
 from scipy.spatial.distance import mahalanobis
 from pathlib import Path
+import os
 
 # ============================================
 # Initialize FastAPI App
@@ -160,8 +161,11 @@ base_dir = Path(__file__).parent
 # ============================================
 # Mount Static Files (✅ لازم يكون قبل الـ routes)
 # ============================================
-app.mount("/static", StaticFiles(directory=str(base_dir / "static")), name="static")
-
+static_dir = base_dir / "static"
+if static_dir.exists():
+    app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+else:
+    print("⚠️ Static directory not found!")
 # ============================================
 # Load Models & Encoders
 # ============================================
@@ -289,5 +293,6 @@ async def predict(request: PredictionRequest):
 # ============================================
 # Run the App
 # ============================================
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5000)
+# if __name__ == "__main__":
+#     port = int(os.getenv("PORT", 5000))  
+#     uvicorn.run(app, host="0.0.0.0", port=port)
