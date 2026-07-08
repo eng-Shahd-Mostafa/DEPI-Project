@@ -15,14 +15,6 @@ SafeGuard-Ag/
 ├── 📂 data/
 │   └── crop_yield.csv                    # Agricultural dataset (10,000+ rows)
 │
-├── 📂 graphs/                            # 📊 Generated visualizations
-│   ├── plot_01_yield_distribution.png    # Yield distribution analysis
-│   ├── plot_02_yield_by_crop.png         # Yield by crop type
-│   ├── plot_03_yield_by_region.png       # Yield by region
-│   ├── plot_04_correlation_matrix.png    # Feature correlation
-│   └── plot_05_feature_importance.png    # Feature importance
-│   └── ...
-│
 ├── 📂 models/                            # 🧠 Trained artifacts
 │   ├── crop_encoder.pkl                  # Crop label encoder
 │   ├── region_encoder.pkl                # Region label encoder
@@ -33,17 +25,17 @@ SafeGuard-Ag/
 │
 ├── 📂 notebooks/                         # 📓 Jupyter notebooks
 │   └── Crop_Yield_Prediction.ipynb       # Main training pipeline
-│
-├── 📂 static/                            # 🎨 Web assets
-│   ├── style.css                         # Custom styling
-│   └── script.js                         # Frontend interactivity
-│
-├── 📂 templates/                         # 📄 HTML templates
-│   └── index.html                        # Main web interface
+|
+├── 📂 .streamlit/                      
+│   └── config.toml       
 │
 ├── 📂 venv/                              # 🐍 Python environment
 │
 ├── .gitignore
+├── packages.txt
+├── runtime.txt
+├── Dockerfile
+├── drift_analysis.py
 ├── app.py                                # 🚀 Flask application
 ├── README.md
 └── requirements.txt                      # 📦 Dependencies
@@ -60,9 +52,11 @@ SafeGuard-Ag/
   - Batch Normalization & Dropout for regularization
   - Adam optimizer with learning rate scheduling
 - ✅ **Model Evaluation** – R² Score, RMSE, MAE, and stability analysis across multiple runs.
-- ✅ **Model Persistence** – Save trained models, encoders, and scaler using `joblib` and `keras`.
-- ✅ **Flask Web Application** – User-friendly interface for real-time predictions.
-- ✅ **Modern UI/UX** – Responsive design with smooth animations and gradient aesthetics.
+- ✅ Model Persistence – Save trained models, encoders, and scaler using joblib and keras.
+- ✅ Streamlit Web Application – Interactive and user-friendly interface for real-time predictions.
+- ✅ Data Drift Detection – Real-time monitoring of input data quality using statistical analysis.
+- ✅ Modern UI/UX – Responsive design with smooth animations, gradient aesthetics, and bolder visual elements.
+- ✅ Docker Support – Containerized deployment for consistent environments.
 
 ---
 
@@ -84,10 +78,9 @@ SafeGuard-Ag/
 ### **Web Development & Deployment**
 | Tool/Library | Version | Purpose |
 |--------------|---------|---------|
-| **Flask** | 2.3.2 | Web framework |
-| **HTML5/CSS3** | - | Frontend structure & styling |
-| **JavaScript** | - | Client-side interactivity |
-| **Google Fonts** | - | Typography (Inter & Tajawal) |
+| **Streamlit** | 2.3.2 | Interactive Web framework |
+| **Google Fonts** | - | Typography (Google Sans) |
+| **Docker** | - | Containerization |
 
 ---
 
@@ -97,7 +90,7 @@ The ANN model achieved the following evaluation metrics after rigorous training 
 
 | Metric | Value |
 |--------|-------|
-| **R² Score** | 0.9426 |
+| **R² Score** | 0.9427 |
 | **RMSE** | 0.4001 tons/ha |
 | **MAE** | 0.3323 tons/ha |
 | **Residual Std** | 0.3999 |
@@ -120,7 +113,6 @@ Before running the project, ensure the following software is installed:
 
 - Python 3.10+
 - Jupyter Notebook
-- Anaconda (Optional)
 - Git
 
 ---
@@ -167,30 +159,7 @@ source venv/bin/activate
 
 ### 🎯 **Project Lead & AI Engineer**
 
-<table align="center">
-<tr>
-<td align="center">
-<img src="https://avatars.githubusercontent.com/eng-Shahd-Mostafa" width="150px" style="border-radius: 50%;" alt="Shahd Mostafa"/>
-<br />
-<strong>Shahd Mostafa</strong>
-<br />
-🎓 AI & ML Engineer
-<br />
-🔬 Deep Learning Specialist
-<br />
-<br />
-<a href="https://github.com/eng-Shahd-Mostafa">
-  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" />
-</a>
-<a href="https://www.linkedin.com/in/engshahdmostafa/">
-  <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />
-</a>
-<a href="mailto:eng.shahd.mostafa@gmail.com">
-  <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
-</a>
-</td>
-</tr>
-</table>
+<table align="center"> <tr> <td align="center"> <img src="https://avatars.githubusercontent.com/eng-Shahd-Mostafa" width="150px" style="border-radius: 50%;" alt="Shahd Mostafa"/> <br /> <strong>Shahd Mostafa</strong> <br /> 🎓 AI & ML Engineer <br /> 🔬 Deep Learning Specialist <br /> <br /> <a href="https://github.com/eng-Shahd-Mostafa"> <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" /> </a> <a href="https://www.linkedin.com/in/engshahdmostafa/"> <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" /> </a> <a href="mailto:eng.shahd.mostafa@gmail.com"> <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" /> </a> </td> </tr> </table>
 
 ---
 
@@ -203,6 +172,7 @@ source venv/bin/activate
 | Platform | Status | Link |
 |----------|--------|------|
 | **Local Server** | 🟢 Active | `http://127.0.0.1:5000` |
+| **Live Server** | 🟢 Public | [SafeGuard Link](https://huggingface.co/spaces/EngShahdMostafa/SafeGuard_Agriculture) |
 | **GitHub Repository** | 🟢 Public | [View Repository](https://github.com/eng-Shahd-Mostafa/DEPI-Project) |
 | **Documentation** | 🟢 Complete | [README.md](README.md) |
 
@@ -214,16 +184,18 @@ source venv/bin/activate
 
 ```mermaid
 graph TD
-    A[User Interface] --> B[Flask Web App]
-    B --> C[Prediction API]
-    C --> D[Model Loading]
-    D --> E[ANN Model]
-    D --> F[Preprocessing Pipeline]
-    F --> G[Label Encoders]
-    F --> H[StandardScaler]
-    E --> I[Prediction Result]
-    I --> J[JSON Response]
-    J --> A
+    A[User Interface] --> B[Streamlit App]
+    B --> C[Input Collection]
+    C --> D[Data Validation]
+    D --> E[Drift Analysis]
+    D --> F[Preprocessing]
+    F --> G[Model Loading]
+    G --> H[ANN Model]
+    H --> I[Prediction]
+    E --> J[Drift Report]
+    I --> K[Results Display]
+    J --> K
+    K --> L[User Feedback]
 ```
 ---
 <div align="center">
