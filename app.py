@@ -5,10 +5,6 @@ import tensorflow as tf
 from datetime import datetime
 import warnings
 warnings.filterwarnings('ignore')
-
-# ============================================
-# استيراد DataDriftAnalyzer من ملف drift_analysis.py
-# ============================================
 from drift_analysis import DataDriftAnalyzer
 
 # Page configuration
